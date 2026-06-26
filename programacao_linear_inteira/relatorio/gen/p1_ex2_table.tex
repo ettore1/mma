@@ -1,0 +1,16 @@
+\begin{footnotesize}
+\begin{longtable}{c c l c l c p{4.2cm}}
+\toprule
+Passo & N\'o & Ramo & $z_{LP}$ & Solu\c{c}\~ao da relaxa\c{c}\~ao & Status & Observa\c{c}\~ao \\
+\midrule
+\endhead
+1 & N0 & raiz (LP) & 55.500 & x1=0, x2=2.5, x3=0, x4=5.5 & fracion. & Ramifica em x2 = 2.500 \\
+2 & N1 & x2 $\leq$ 2 & 51.000 & x1=0, x2=2, x3=0, x4=5.5 & fracion. & Ramifica em x4 = 5.500 \\
+3 & N3 & x4 $\leq$ 5 & 49.000 & x1=0.14, x2=2, x3=0, x4=5 & fracion. & Ramifica em x1 = 0.143 \\
+4 & N5 & x1 $\leq$ 0 & 48.167 & x1=0, x2=2, x3=0.17, x4=5 & inteira & Nova solucao incumbente (inteira) \\
+5 & N6 & x1 $\geq$ 1 & 37.000 & x1=1, x2=2, x3=0, x4=2 & podado & Poda por limitante (z=37.000 nao supera incumbente 48.167) \\
+6 & N4 & x4 $\geq$ 6 & -- & -- & inviavel & Poda por inviabilidade \\
+7 & N2 & x2 $\geq$ 3 & -- & -- & inviavel & Poda por inviabilidade \\
+\bottomrule
+\end{longtable}
+\end{footnotesize}

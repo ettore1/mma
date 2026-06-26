@@ -1,0 +1,22 @@
+\begin{footnotesize}
+\begin{longtable}{c c l c l c p{4.2cm}}
+\toprule
+Passo & N\'o & Ramo & $z_{LP}$ & Solu\c{c}\~ao da relaxa\c{c}\~ao & Status & Observa\c{c}\~ao \\
+\midrule
+\endhead
+1 & N0 & raiz (LP) & 22.333 & x1=0, x2=3.17, x3=0.72, x4=0 & fracion. & Ramifica em x2 = 3.167 \\
+2 & N1 & x2 $\leq$ 3 & 22.000 & x1=0, x2=3, x3=0.78, x4=0 & fracion. & Ramifica em x3 = 0.778 \\
+3 & N3 & x3 $\leq$ 0 & 15.714 & x1=0, x2=3, x3=0, x4=0.14 & fracion. & Ramifica em x4 = 0.143 \\
+4 & N5 & x4 $\leq$ 0 & 15.167 & x1=0.17, x2=3, x3=0, x4=0 & fracion. & Ramifica em x1 = 0.167 \\
+5 & N7 & x1 $\leq$ 0 & 15.000 & x1=0, x2=3, x3=0, x4=0 & inteira & Nova solucao incumbente (inteira) \\
+6 & N8 & x1 $\geq$ 1 & 11.833 & x1=1, x2=2.17, x3=0, x4=0 & podado & Poda por limitante (z=11.833 nao supera incumbente 15.000) \\
+7 & N6 & x4 $\geq$ 1 & 15.000 & x1=0, x2=2, x3=0, x4=1 & podado & Poda por limitante (z=15.000 nao supera incumbente 15.000) \\
+8 & N4 & x3 $\geq$ 1 & 20.667 & x1=0, x2=2.33, x3=1, x4=0 & fracion. & Ramifica em x2 = 2.333 \\
+9 & N9 & x2 $\leq$ 2 & 20.000 & x1=0, x2=2, x3=1.11, x4=0 & fracion. & Ramifica em x3 = 1.111 \\
+10 & N11 & x3 $\leq$ 1 & 20.000 & x1=1, x2=2, x3=1, x4=0 & inteira & Nova solucao incumbente (inteira) \\
+11 & N12 & x3 $\geq$ 2 & -- & -- & inviavel & Poda por inviabilidade \\
+12 & N10 & x2 $\geq$ 3 & -- & -- & inviavel & Poda por inviabilidade \\
+13 & N2 & x2 $\geq$ 4 & -- & -- & inviavel & Poda por inviabilidade \\
+\bottomrule
+\end{longtable}
+\end{footnotesize}

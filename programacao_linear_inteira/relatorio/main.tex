@@ -1,0 +1,473 @@
+% ==============================================================================
+% Lista de Exercicios - Programacao Linear Inteira (CEMMA)
+% Prof. Franklin Angelo Krukoski - Junho/2026
+% ==============================================================================
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{times}
+\usepackage{microtype}
+
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+
+\graphicspath{{../figs/}}
+
+\pagestyle{fancy}
+\fancyhf{}
+%\rhead{\small PLI --- CEMMA}
+%\lhead{\small Lista de Exerc\'icios}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- estilo de codigo Python ---
+\definecolor{codegreen}{rgb}{0.0,0.5,0.0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0.1,0.1,0.6}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.94}
+\lstdefinestyle{py}{
+  backgroundcolor=\color{backcolour}, commentstyle=\color{codegreen},
+  keywordstyle=\color{codeblue}\bfseries, stringstyle=\color{codegreen},
+  basicstyle=\ttfamily\footnotesize, breaklines=true, captionpos=b,
+  keepspaces=true, numbers=left, numbersep=5pt, numberstyle=\tiny\color{codegray},
+  showstringspaces=false, frame=single, language=Python, tabsize=2}
+\lstset{style=py}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\begin{document}
+
+% --------------------------- CAPA ---------------------------
+\begin{center}
+  {\Large\textbf{Resolu\c{c}\~ao da Lista de Exerc\'icios}}\\[0.3em]
+  {\large Programa\c{c}\~ao Linear Inteira}\\[0.6em]
+  Especializa\c{c}\~ao em M\'etodos Matem\'aticos Aplicados (CEMMA)\\
+  Prof. Franklin Angelo Krukoski\\[0.4em]
+  Junho de 2026
+\end{center}
+\vspace{0.6em}
+\hrule
+\vspace{0.8em}
+
+\noindent\textbf{Observa\c{c}\~oes metodol\'ogicas.} As relaxa\c{c}\~oes lineares
+e os modelos inteiros foram resolvidos com o solver \textbf{CBC} acessado via
+biblioteca \textbf{PuLP} (Python). Os grafos e \'arvores foram constru\'idos com a
+biblioteca \textbf{NetworkX} e desenhados com \texttt{matplotlib}. Todo o c\'odigo
+encontra-se nos \emph{notebooks} e scripts que foram desenvolvidos em Python.
+
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{Parte 1 --- Constru\c{c}\~ao da \'Arvore Branch-and-Bound}
+% ============================================================================
+\textbf{Estrat\'egia de busca adotada: busca em profundidade} (\emph{depth-first
+search}). A cada n\'o resolve-se a relaxa\c{c}\~ao linear (vari\'aveis cont\'inuas)
+com o CBC. \textbf{Regra de ramifica\c{c}\~ao:} escolhe-se a vari\'avel inteira de
+\emph{menor \'indice} cujo valor na relaxa\c{c}\~ao seja fracion\'ario, gerando dois
+ramos: $x_j \le \lfloor x_j^{*}\rfloor$ (ramo do \emph{piso}, explorado primeiro)
+e $x_j \ge \lceil x_j^{*}\rceil$ (ramo do \emph{teto}). Cada \emph{passo}
+corresponde \`a resolu\c{c}\~ao da relaxa\c{c}\~ao de um n\'o.
+
+\medskip
+\noindent\textbf{Crit\'erios de poda:} (i) \emph{inviabilidade} --- a relaxa\c{c}\~ao
+do n\'o n\~ao tem solu\c{c}\~ao; (ii) \emph{integralidade} --- a solu\c{c}\~ao da
+relaxa\c{c}\~ao j\'a \'e inteira (candidata a incumbente); (iii) \emph{limitante}
+(\emph{bound}) --- o valor da relaxa\c{c}\~ao n\~ao supera o incumbente corrente.
+
+\medskip
+\noindent Nas figuras: \textcolor{blue}{\textbf{azul}} = n\'o fracion\'ario
+(ramificado), \textcolor{green!60!black}{\textbf{verde}} = solu\c{c}\~ao inteira,
+\textcolor{orange}{\textbf{laranja}} = podado por limitante,
+\textcolor{red}{\textbf{vermelho}} = inviavel. O r\'otulo $p_k$ indica o passo.
+
+\medskip
+\noindent O trecho central do motor de B\&B (resolu\c{c}\~ao da relaxa\c{c}\~ao de
+cada n\'o) \'e:
+\begin{lstlisting}
+import pulp
+def solve_relaxation(prob, bounds):
+    m = pulp.LpProblem("relax", prob["sense"])          # Maximize/Minimize
+    x = {n: pulp.LpVariable(n, *bounds.get(n,(0,None)),  # limites do no
+                            cat="Continuous") for n in prob["vars"]}
+    m += pulp.lpSum(prob["obj"].get(n,0)*x[n] for n in prob["vars"])
+    for coef, sign, rhs in prob["constraints"]:
+        e = pulp.lpSum(coef.get(n,0)*x[n] for n in prob["vars"])
+        m += (e <= rhs) if sign=="<=" else (e >= rhs) if sign==">=" else (e == rhs)
+    m.solve(pulp.PULP_CBC_CMD(msg=0))
+    return pulp.value(m.objective), {n: x[n].value() for n in prob["vars"]}
+\end{lstlisting}
+
+% ---------- Exercicio 1 ----------
+\subsection{Exerc\'icio 1}
+\[
+\max z = x_1+5x_2+9x_3+5x_4 \quad\text{s.a.}\quad
+\begin{cases}
+x_1+3x_2+9x_3+6x_4 \le 16\\
+6x_1+6x_2+7x_4 \le 19\\
+7x_1+8x_2+18x_3+3x_4 \le 44\\
+x_1,x_2,x_3,x_4 \ge 0\ \text{e inteiras.}
+\end{cases}
+\]
+A relaxa\c{c}\~ao na raiz fornece $z=22{,}33$ (fracion\'aria). A busca em
+profundidade explora 13 n\'os at\'e a \'arvore completa. A sequ\^encia de passos
+est\'a na tabela; a \'arvore na Figura~\ref{fig:p1ex1}.
+\input{gen/p1_ex1_table.tex}
+\begin{figure}[H]\centering
+  \includegraphics[width=\linewidth]{p1_ex1_tree.png}
+  \caption{\'Arvore B\&B completa --- Parte 1, Exerc\'icio 1.}\label{fig:p1ex1}
+\end{figure}
+\noindent\textbf{Solu\c{c}\~ao \'otima:} $z^{*}=20$ em $(x_1,x_2,x_3,x_4)=(1,2,1,0)$
+(n\'o N11).
+
+% ---------- Exercicio 2 ----------
+\subsection{Exerc\'icio 2}
+\[
+\max z = 7x_1+9x_2+x_3+6x_4 \quad\text{s.a.}\quad
+\begin{cases}
+8x_1+2x_2+4x_3+2x_4 \le 16\\
+4x_1+8x_2+2x_3 \le 20\\
+7x_1+6x_3+2x_4 \le 11\\
+x_1,x_2,x_4 \ge 0\ \text{inteiras};\ x_3 \ge 0.
+\end{cases}
+\]
+Aqui $x_3$ \'e cont\'inua, portanto a ramifica\c{c}\~ao incide apenas sobre
+$x_1,x_2,x_4$. A \'arvore completa tem 7 n\'os.
+\input{gen/p1_ex2_table.tex}
+\begin{figure}[H]\centering
+  \includegraphics[width=0.92\linewidth]{p1_ex2_tree.png}
+  \caption{\'Arvore B\&B completa --- Parte 1, Exerc\'icio 2.}\label{fig:p1ex2}
+\end{figure}
+\noindent\textbf{Solu\c{c}\~ao \'otima:} $z^{*}=48{,}1\overline{6}=\tfrac{289}{6}$ em
+$(x_1,x_2,x_3,x_4)=(0,\,2,\,\tfrac16,\,5)$.
+
+% ---------- Exercicio 3 ----------
+\subsection{Exerc\'icio 3}
+\[
+\min z = 3x_1+4x_2+3x_3 \quad\text{s.a.}\quad
+\begin{cases}
+3x_1+2x_2+2x_3 \ge 13\\
+2x_1+5x_2+3x_3 \ge 15\\
+2x_1+x_2+2x_3 \ge 9\\
+x_2,x_3 \ge 0\ \text{inteiras};\ x_1 \ge 0.
+\end{cases}
+\]
+$x_1$ \'e cont\'inua; ramifica-se sobre $x_2,x_3$. A \'arvore completa tem 9 n\'os.
+\input{gen/p1_ex3_table.tex}
+\begin{figure}[H]\centering
+  \includegraphics[width=0.92\linewidth]{p1_ex3_tree.png}
+  \caption{\'Arvore B\&B completa --- Parte 1, Exerc\'icio 3.}\label{fig:p1ex3}
+\end{figure}
+\noindent\textbf{Solu\c{c}\~ao \'otima:} $z^{*}=17$ em
+$(x_1,x_2,x_3)=(\tfrac53,\,0,\,4)$.
+
+% ---------- Exercicio 4 ----------
+\subsection{Exerc\'icio 4}
+\[
+\min z = 2x_1+3x_2+5x_3 \quad\text{s.a.}\quad
+\begin{cases}
+x_1+2x_2+3x_3 \ge 7\\
+3x_1+2x_2+3x_3 \ge 11\\
+x_1,x_3 \ge 0\ \text{inteiras};\ x_2 \ge 0.
+\end{cases}
+\]
+\input{gen/p1_ex4_table.tex}
+\noindent Neste caso a relaxa\c{c}\~ao na raiz j\'a fornece valores inteiros para
+as vari\'aveis exigidas inteiras ($x_1=2$, $x_3=0$, com $x_2=2{,}5$ cont\'inua).
+Logo a \'arvore se encerra na raiz, \emph{sem necessidade de ramifica\c{c}\~ao}.
+\textbf{Solu\c{c}\~ao \'otima:} $z^{*}=11{,}5$ em $(x_1,x_2,x_3)=(2,\,2{,}5,\,0)$.
+
+\newpage
+% ============================================================================
+\section{Parte 2 --- Formula\c{c}\~ao de Problemas de PLI}
+% ============================================================================
+Apresentam-se apenas os modelos matem\'aticos (vari\'aveis de decis\~ao, fun\c{c}\~ao
+objetivo e restri\c{c}\~oes), conforme solicitado.
+
+% ---------- Ex1 ----------
+\subsection{Exerc\'icio 1 --- Carregamento do avi\~ao cargueiro}
+\textbf{Vari\'aveis de decis\~ao.} Para os cont\^eineres dos tipos $i\in\{1,2,3\}$
+e compartimentos $k\in\{F,C,T\}$ (frontal, central, cauda), seja
+$n_{ik}\in\Z_{\ge 0}$ o n\'umero de cont\^eineres do tipo $i$ no compartimento $k$.
+Para as cargas a granel $j\in\{4,5\}$ (apenas no por\~ao $G$), seja
+$g_j \ge 0$ a quantidade (em toneladas) da carga $j$.
+
+\noindent Pesos por contêiner $w_1{=}0{,}7,\,w_2{=}0{,}9,\,w_3{=}0{,}2$ (ton);
+volumes $v_1{=}0{,}5,\,v_2{=}1,\,v_3{=}0{,}25$ (m$^3$). Densidades a granel
+$1{,}2$ e $1{,}7$ ton/m$^3$. Lucros (\$/ton): $200,220,175,235,180$.
+
+\textbf{Fun\c{c}\~ao objetivo} (maximizar o lucro, lucro = \$/ton $\times$ ton):
+\[
+\max\; z = \sum_{k}\big(200\,w_1 n_{1k}+220\,w_2 n_{2k}+175\,w_3 n_{3k}\big)
+            + 235\,g_4 + 180\,g_5 .
+\]
+\textbf{Restri\c{c}\~oes de peso} (cap.\ em ton: $F{=}5,C{=}7,T{=}6,G{=}7$):
+\[
+\sum_i w_i n_{iF}\le 5,\quad \sum_i w_i n_{iC}\le 7,\quad
+\sum_i w_i n_{iT}\le 6,\quad g_4+g_5 \le 7 .
+\]
+\textbf{Restri\c{c}\~oes de espa\c{c}o} (cap.\ em m$^3$: $F{=}35,C{=}55,T{=}30,G{=}30$):
+\[
+\sum_i v_i n_{iF}\le 35,\quad \sum_i v_i n_{iC}\le 55,\quad
+\sum_i v_i n_{iT}\le 30,\quad \tfrac{g_4}{1{,}2}+\tfrac{g_5}{1{,}7}\le 30 .
+\]
+\textbf{Equil\'ibrio de voo} (peso proporcional \`a capacidade de cada compartimento):
+\[
+\frac{\sum_i w_i n_{iF}}{5}=\frac{\sum_i w_i n_{iC}}{7}
+=\frac{\sum_i w_i n_{iT}}{6}=\frac{g_4+g_5}{7}.
+\]
+\[ n_{ik}\in\Z_{\ge0},\quad g_j\ge 0. \]
+
+% ---------- Ex2 ----------
+\subsection{Exerc\'icio 2 --- Combate ao inc\^endio florestal}
+\textbf{Vari\'aveis:} $x_1,x_2,x_3\in\Z_{\ge0}$ = n\'umero de helic\'opteros AH-1,
+avi\~oes-tanque e avi\~oes B67 mobilizados. A opera\c{c}\~ao dura $3$ horas.
+
+\textbf{Objetivo} (minimizar custo $=3\,$h $\times$ custo/h):
+\[ \min\; z = 3(2000x_1+4000x_2+10000x_3)=6000x_1+12000x_2+30000x_3 .\]
+\textbf{Restri\c{c}\~oes:}
+\[
+\begin{aligned}
+&3(15000x_1+40000x_2+85000x_3) \ge 3{.}000{.}000 &&\text{(\'area coberta)}\\
+&2x_1 \le 10 &&\text{(pilotos de helic\'optero)}\\
+&2x_2+2x_3 \le 14 &&\text{(pilotos de avi\~ao)}\\
+&x_2+3x_3 \le 22 &&\text{(operadores)}\\
+&x_1,x_2,x_3 \in \Z_{\ge0}.
+\end{aligned}
+\]
+
+% ---------- Ex4 ----------
+\subsection{Exerc\'icio 4 --- Redu\c{c}\~ao de peso do autom\'ovel}
+\textbf{Vari\'aveis:} $x_j\in\{0,1\}$, $j=1,\dots,12$, igual a 1 se a altera\c{c}\~ao
+$j$ for implementada. Sejam $r_j$ a redu\c{c}\~ao de peso (kg) e $c_j$ o custo (\$).
+\[
+\min\; z=\sum_{j=1}^{12} c_j x_j \qquad\text{s.a.}\qquad
+\sum_{j=1}^{12} r_j x_j \ge 180,\qquad x_j\in\{0,1\}.
+\]
+com $r=(30,20,25,40,15,10,$ $60,80,40,30,50,35)$ e
+$c=(130,110,120,150,80,80,$ $360,400,160,120,200,160)$ (em mil \$).
+
+% ---------- Ex5 ----------
+\subsection{Exerc\'icio 5 --- Localiza\c{c}\~ao de Centros de Distribui\c{c}\~ao}
+\textbf{Vari\'aveis:} $y_i\in\{0,1\}$ = 1 se o CD do local $i$ \'e instalado
+($i\in\{A,\dots,F\}$); $x_{ij}\ge0$ = quantidade (em 1.000 t) enviada do local $i$
+ao distribuidor $j$ ($j=1,\dots,6$).
+
+\noindent Par\^ametros: $f_i$ custo fixo, $v_i$ custo vari\'avel (\$/1.000t),
+$\text{Cap}_i$ capacidade, $c_{ij}$ custo de transporte, $d_j$ demanda.
+\[
+\min\; z=\sum_i f_i y_i + \sum_i\sum_j (v_i+c_{ij})\,x_{ij}
+\]
+\[
+\begin{aligned}
+&\sum_i x_{ij} = d_j, && j=1,\dots,6 &&\text{(atender demanda)}\\
+&\sum_j x_{ij} \le \text{Cap}_i\, y_i, && i\in\{A,\dots,F\} &&\text{(capacidade e abertura)}\\
+&x_{ij}\ge 0,\quad y_i\in\{0,1\}.
+\end{aligned}
+\]
+A restri\c{c}\~ao $\sum_j x_{ij}\le \text{Cap}_i y_i$ garante que s\'o se despacha de um
+local \emph{aberto} ($y_i=1$).
+
+% ---------- Ex6 ----------
+\subsection{Exerc\'icio 6 --- Plano de investimentos (Tupinamb\'a)}
+\textbf{Vari\'aveis:} $x_j\in\{0,1\}$, $j=1,\dots,10$, igual a 1 se o projeto $j$
+for selecionado. $\text{INV}_j$ = investimento e $\text{VP}_j$ = valor presente
+(em mil US\$).
+\[ \max\; z=\sum_{j=1}^{10}\text{VP}_j\,x_j \]
+\[
+\begin{aligned}
+&\sum_{j} \text{INV}_j\, x_j \le 400{.}000 &&\text{(or\c{c}amento US\$ 400 mi)}\\
+&\sum_{j} x_j \le 5 &&\text{(5 gerentes dispon\'iveis)}\\
+&x_2 \le x_1 &&\text{(2 complementar a 1)}\\
+&x_3 + x_4 \le 1 &&\text{(3 e 4 mutuamente exclusivos)}\\
+&x_5 \le x_4 &&\text{(5 complementar a 4)}\\
+&x_6 + x_7 \le 1 &&\text{(6 e 7 mutuamente exclusivos)}\\
+&x_8 + x_9 + x_{10} \le 1 &&\text{(8, 9 e 10 mutuamente exclusivos)}\\
+&x_8+x_9+x_{10} \le x_6+x_7 &&\text{(amplia\c{c}\~ao exige mat\'eria-prima 6 ou 7)}\\
+&x_8+x_9+x_{10} \le x_3+x_4 &&\text{(amplia\c{c}\~ao exige armazenagem 3 ou 4)}\\
+&x_j \in \{0,1\}.
+\end{aligned}
+\]
+
+\newpage
+% ============================================================================
+\section{Parte 3 --- Transporte, Transbordo e Designa\c{c}\~ao}
+% ============================================================================
+Os problemas de transporte foram modelados como
+$\min \sum_{ij} c_{ij}x_{ij}$ sujeito a
+$\sum_j x_{ij}\le s_i$ (oferta) e $\sum_i x_{ij}= d_j$ (demanda), com
+$x_{ij}\ge 0$ --- v\'alido pois em todos os casos a oferta total $\ge$ demanda
+total. A fun\c{c}\~ao gen\'erica de resolu\c{c}\~ao (PuLP/CBC) utilizada foi:
+\begin{lstlisting}
+def solve_transport(cost, supply, demand):
+    m = len(supply); n = len(demand)
+    prob = pulp.LpProblem("transp", pulp.LpMinimize)
+    x = [[pulp.LpVariable(f"x_{i}_{j}", lowBound=0) for j in range(n)]
+          for i in range(m)]
+    prob += pulp.lpSum(cost[i][j]*x[i][j] for i in range(m) for j in range(n))
+    for i in range(m): prob += pulp.lpSum(x[i][j] for j in range(n)) <= supply[i]
+    for j in range(n): prob += pulp.lpSum(x[i][j] for i in range(m)) == demand[j]
+    prob.solve(pulp.PULP_CBC_CMD(msg=0))                # solver CBC
+    return [[x[i][j].value() for j in range(n)] for i in range(m)], pulp.value(prob.objective)
+\end{lstlisting}
+O problema de designa\c{c}\~ao (Ex.\ 5) usa vari\'aveis bin\'arias $x_{ij}\in\{0,1\}$
+com $\sum_j x_{ij}=1$ e $\sum_i x_{ij}=1$.
+
+% ---------- Ex1 ----------
+\subsection{Exerc\'icio 1 --- Transporte (3 f\'abricas $\times$ 4 mercados)}
+Oferta $(220,180,230)$, demanda $(150,165,210,90)$; oferta total $630 >
+615$ (excesso de 15 absorvido pela folga da oferta).
+\begin{figure}[H]\centering
+  \includegraphics[width=0.78\linewidth]{p3_ex1_sol.png}
+  \caption{Plano \'otimo de transporte --- Parte 3, Exerc\'icio 1.}\end{figure}
+\noindent\textbf{Custo m\'inimo} $=$ R\$ \textbf{3.625,00}, com
+F1$\to$M1 (150), F1$\to$M2 (70), F2$\to$M2 (75), F2$\to$M4 (90),
+F3$\to$M2 (20), F3$\to$M3 (210).
+
+% ---------- Ex2 ----------
+\subsection{Exerc\'icio 2 --- Compra de pneus (Expresso R\'apido Faxina)}
+Modelado como transporte: ofertas = pneus dispon\'iveis por revendedor
+$(A{=}12000,B{=}6000,C{=}4000)$; demandas = pneus necess\'arios por terminal
+$(4000,8000,3000,5000)$. Oferta total $22000 > 20000$.
+\begin{figure}[H]\centering
+  \includegraphics[width=0.82\linewidth]{p3_ex2_sol.png}
+  \caption{Compras \'otimas (unidades por revendedor/terminal) --- Ex.\ 2.}\end{figure}
+\noindent\textbf{Custo m\'inimo} $=$ R\$ \textbf{1.272.000,00}. Compra: do
+Revendedor A $\to$ Cascavel (3000) e Campo Mour\~ao (5000) e parte de Curitiba
+(2000); Revendedor B $\to$ Curitiba (2000) e Londrina (4000); Revendedor C $\to$
+Londrina (4000). (Revendedor A fica com 2000 pneus de folga.)
+
+% ---------- Ex3 ----------
+\subsection{Exerc\'icio 3 --- Aquisi\c{c}\~ao de combust\'ivel}
+Ofertas (mil gal\~oes) $(320,270,150)$; demandas $(100,180,300)$.
+\begin{figure}[H]\centering
+  \includegraphics[width=0.7\linewidth]{p3_ex3_sol.png}
+  \caption{Pol\'itica \'otima de aquisi\c{c}\~ao (mil gal\~oes) --- Ex.\ 3.}\end{figure}
+\noindent\textbf{Custo m\'inimo} $=\$\,51.990$ (em mil gal\~oes $\times$ \$/gal\~ao),
+isto \'e, \textbf{US\$ 51.990.000}. Pol\'itica: Forn.1 $\to$ Aerop.2 (20) e Aerop.3
+(300); Forn.2 $\to$ Aerop.2 (110); Forn.3 $\to$ Aerop.1 (100) e Aerop.2 (50).
+
+% ---------- Ex4 ----------
+\subsection{Exerc\'icio 4 --- Mercados ``Deise-Luzia''}
+Tr\^es centros $C_1,C_2,C_3$ (capacidades $500,750,400$) atendem 11 armaz\'ens
+(demandas $112,85,138,146,77,89,101,215,53,49,153$). O custo \'e
+$c_{ij}=0{,}50\cdot d_{ij}$ (\$/ton, onde $d_{ij}$ \'e a dist\^ancia em km da tabela).
+\begin{figure}[H]\centering
+  \includegraphics[width=\linewidth]{p3_ex4_sol.png}
+  \caption{Programa \'otimo de transporte (toneladas) --- Ex.\ 4.}\end{figure}
+\noindent\textbf{Custo m\'inimo} $=\$\,\textbf{16.678,50}$.
+
+% ---------- Ex5 ----------
+\subsection{Exerc\'icio 5 --- Designa\c{c}\~ao (6 trabalhadores $\times$ 6 tarefas)}
+\begin{figure}[H]\centering
+  \includegraphics[width=0.72\linewidth]{p3_ex5_sol.png}
+  \caption{Designa\c{c}\~ao \'otima --- Ex.\ 5.}\end{figure}
+\noindent\textbf{Tempo total m\'inimo} $=\textbf{99}$ minutos:
+T1$\to$Tarefa 1 (13), T2$\to$Tarefa 4 (18), T3$\to$Tarefa 5 (17),
+T4$\to$Tarefa 3 (13), T5$\to$Tarefa 2 (14), T6$\to$Tarefa 6 (24).
+
+\newpage
+% ============================================================================
+\section{Parte 4 --- M\'inima Arboresc\^encia e Fluxo M\'aximo}
+% ============================================================================
+\textbf{Observa\c{c}\~ao.} Os pesos/capacidades foram transcritos das figuras do
+enunciado e reproduzidos nos grafos a seguir (para confer\^encia). Os algoritmos
+foram implementados em Python.
+
+% ---------- Ex1 ----------
+\subsection{Exerc\'icio 1 --- M\'inima \'arvore geradora (Prim e Kruskal)}
+\begin{figure}[H]\centering
+  \includegraphics[width=0.62\linewidth]{p4_ex1_grafo.png}\hfill
+  \includegraphics[width=0.62\linewidth]{p4_ex1_mst.png}
+  \caption{Grafo de entrada (esq.) e \'arvore geradora m\'inima em vermelho
+  (dir.) --- Ex.\ 1. Custo total $=74$.}\end{figure}
+
+\noindent\textbf{Kruskal} (arestas em ordem n\~ao-decrescente de peso):
+\input{gen/p4_ex1_kruskal.tex}
+\noindent\textbf{Prim} (a partir do n\'o 1; em cada itera\c{c}\~ao escolhe-se a
+aresta de menor peso que liga a \'arvore a um n\'o externo):
+\input{gen/p4_ex1_prim.tex}
+\noindent Ambos os algoritmos produzem custo total $=\mathbf{74}$.
+
+% ---------- Ex2 ----------
+\subsection{Exerc\'icio 2 --- M\'inima \'arvore geradora (Prim e Kruskal)}
+\begin{figure}[H]\centering
+  \includegraphics[width=0.62\linewidth]{p4_ex2_grafo.png}\hfill
+  \includegraphics[width=0.62\linewidth]{p4_ex2_mst.png}
+  \caption{Grafo de entrada (esq.) e \'arvore geradora m\'inima (dir.) --- Ex.\ 2.
+  Custo total $=89$.}\end{figure}
+\noindent\textbf{Kruskal:}
+\input{gen/p4_ex2_kruskal.tex}
+\noindent\textbf{Prim} (a partir do n\'o 1):
+\input{gen/p4_ex2_prim.tex}
+\noindent Ambos os algoritmos produzem custo total $=\mathbf{89}$.
+
+% ---------- Ex5 ----------
+\subsection{Exerc\'icio 5 --- Fluxo m\'aximo (Edmonds-Karp)}
+Grafo direcionado com 15 n\'os; fonte $s=1$, sumidouro $t=15$; capacidades dadas na
+tabela do enunciado.
+
+\textbf{Modelo matem\'atico} (fluxo m\'aximo). Seja $f_{ij}$ o fluxo no arco $(i,j)$
+e $u_{ij}$ sua capacidade:
+\[
+\max\; F=\!\!\sum_{j:(1,j)\in A}\!\! f_{1j}
+\qquad\text{s.a.}\qquad
+\begin{cases}
+\displaystyle\sum_{j:(i,j)\in A} f_{ij}-\!\!\sum_{j:(j,i)\in A} f_{ji}=0, & \forall i\neq 1,15\\[1ex]
+0 \le f_{ij} \le u_{ij}, & \forall (i,j)\in A.
+\end{cases}
+\]
+(conserva\c{c}\~ao de fluxo nos n\'os intermedi\'arios e limita\c{c}\~ao pela
+capacidade dos arcos). O n\'ucleo do algoritmo de Edmonds-Karp (BFS no grafo
+residual) \'e:
+\begin{lstlisting}
+from collections import deque
+def edmonds_karp(nodes, arcs, s, t):
+    cap = {}; adj = {v:set() for v in nodes}
+    for u,v,c in arcs:
+        cap[(u,v)] = cap.get((u,v),0)+c; cap.setdefault((v,u),0)
+        adj[u].add(v); adj[v].add(u)
+    flow = {k:0 for k in cap}; maxflow = 0
+    while True:                                    # busca caminho aumentante
+        prev = {s:None}; q = deque([s])
+        while q:
+            u = q.popleft()
+            for v in adj[u]:
+                if v not in prev and cap[(u,v)]-flow[(u,v)] > 0:
+                    prev[v]=u; q.append(v)
+        if t not in prev: break                    # nao ha mais caminho -> fim
+        path=[]; v=t
+        while prev[v] is not None: path.append((prev[v],v)); v=prev[v]
+        b = min(cap[e]-flow[e] for e in path)      # gargalo
+        for (u,v) in path: flow[(u,v)]+=b; flow[(v,u)]-=b
+        maxflow += b
+    return maxflow
+\end{lstlisting}
+
+\textbf{Passos do algoritmo} (caminhos aumentantes encontrados pela BFS e
+respectivos gargalos):
+\input{gen/p4_ex5_steps.tex}
+
+\noindent\textbf{Fluxo m\'aximo} $=\mathbf{191}$. Esse valor coincide com a soma das
+capacidades dos arcos que saem da fonte ($13+46+40+92=191$): logo o
+\emph{corte m\'inimo} \'e $(\{1\},\{2,\dots,15\})$ e todos os arcos da fonte
+ficam saturados.
+\begin{figure}[H]\centering
+  \includegraphics[width=0.92\linewidth]{p4_ex5_fluxo.png}
+  \caption{Fluxo \'otimo (r\'otulos \emph{fluxo/capacidade}) --- Ex.\ 5.}\end{figure}
+
+\end{document}
