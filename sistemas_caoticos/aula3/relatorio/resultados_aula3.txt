@@ -1,0 +1,18 @@
+=== BASE (Lorenz classico) (sigma=10, rho=28, beta=2.66667) ===
+Parametros do algoritmo: tstart=0, stept=0.5, tend=10000, ystart=[0 1 0]
+  Expoentes de Lyapunov calculados : L1=0.901123  L2=0.002150  L3=-14.566354
+  Expoentes de referencia (literatura/slide): L1=0.9022  L2=0.0003  L3=-14.5691
+  Diferenca absoluta: dL1=0.0011  dL2=0.0019  dL3=0.0027
+
+=== CASO A (sigma=14, rho=35, beta=1.66667) ===
+Parametros do algoritmo: tstart=0, stept=0.5, tend=10000, ystart=[0 1 0]
+  Expoentes de Lyapunov calculados : L1=0.761770  L2=0.000892  L3=-17.412873
+  Expoentes de referencia (literatura/slide): L1=0.9960  L2=0.0000  L3=-17.6000
+  Diferenca absoluta: dL1=0.2342  dL2=0.0009  dL3=0.1871
+
+=== CASO B (sigma=16, rho=45, beta=4) ===
+Parametros do algoritmo: tstart=0, stept=0.5, tend=10000, ystart=[0 1 0]
+  Expoentes de Lyapunov calculados : L1=1.481418  L2=0.003148  L3=-22.427952
+  Expoentes de referencia (literatura/slide): L1=1.1020  L2=0.0000  L3=-20.5500
+  Diferenca absoluta: dL1=0.3794  dL2=0.0031  dL3=1.8780
+
