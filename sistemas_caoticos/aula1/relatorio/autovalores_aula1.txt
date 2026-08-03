@@ -1,0 +1,52 @@
+
+--- Caso BASE ---
+Matriz A:
+         0    1.0000         0
+   -0.5000   -0.0200    0.0500
+         0   -0.5000   -0.0500
+
+Autovalores:
+  -0.0112 + 0.7244i
+  -0.0112 - 0.7244i
+  -0.0476 + 0.0000i
+
+Classificacao: Sistema ESTAVEL
+
+--- Caso MOD1 (zeta alto) ---
+Matriz A:
+         0    1.0000         0
+   -0.5000   -0.3000    0.0500
+         0   -0.5000   -0.0500
+
+Autovalores:
+  -0.1512 + 0.7090i
+  -0.1512 - 0.7090i
+  -0.0476 + 0.0000i
+
+Classificacao: Sistema ESTAVEL
+
+--- Caso MOD2 (ressonancia) ---
+Matriz A:
+         0    1.0000         0
+   -0.5000   -0.0200    0.0500
+         0   -0.5000   -0.0500
+
+Autovalores:
+  -0.0112 + 0.7244i
+  -0.0112 - 0.7244i
+  -0.0476 + 0.0000i
+
+Classificacao: Sistema ESTAVEL
+
+--- Caso MOD3 (f alto) ---
+Matriz A:
+         0    1.0000         0
+   -0.5000   -0.0200    0.0500
+         0   -0.5000   -0.0500
+
+Autovalores:
+  -0.0112 + 0.7244i
+  -0.0112 - 0.7244i
+  -0.0476 + 0.0000i
+
+Classificacao: Sistema ESTAVEL

@@ -1,0 +1,20 @@
+Caso BASE: zeta=0.01, Omega=0.8, f=0.083 (parametros originais - Erturk e Inman, 2011)
+  Potencia media = 7.038207e-01 (u.a.)
+  Amplitude max |deslocamento| (regime) = 0.7137
+  Amplitude max |tensao| (regime) = 0.3562
+
+Caso MOD1: zeta: 0.01 -> 0.15 (aumento do amortecimento mecanico)
+  Potencia media = 1.308568e-01 (u.a.)
+  Amplitude max |deslocamento| (regime) = 0.3102
+  Amplitude max |tensao| (regime) = 0.1548
+
+Caso MOD2: Omega: 0.8 -> 0.7071 = sqrt(1/2) (excitacao na frequencia natural / ressonancia)
+  Potencia media = 9.660551e+00 (u.a.)
+  Amplitude max |deslocamento| (regime) = 2.8014
+  Amplitude max |tensao| (regime) = 1.3973
+
+Caso MOD3: f: 0.083 -> 0.40 (aumento da amplitude da excitacao de base)
+  Potencia media = 1.513826e+01 (u.a.)
+  Amplitude max |deslocamento| (regime) = 3.4397
+  Amplitude max |tensao| (regime) = 1.7165
+
