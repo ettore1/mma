@@ -55,7 +55,7 @@
 {\normalsize Ettore Gabriel Emilio Reis Braga}\\[0.6em]
 {\normalsize Especializa\c{c}\~ao em M\'etodos Matem\'aticos Aplicados (CEMMA)}\\[0.3em]
 {\normalsize Prof.\ Franklin Angelo Krukoski}\\[3cm]
-{\normalsize Junho de 2026}
+{\normalsize Julho de 2026}
 \end{titlepage}
 
 %\tableofcontents
@@ -68,7 +68,9 @@ Foi utilizado o solver PuLP em Python para os problemas.
 \textbf{Estrat\'egia de busca adotada: busca em profundidade} (\emph{depth-first
 search}). A cada n\'o resolve-se a relaxa\c{c}\~ao linear (vari\'aveis cont\'inuas)
 com o CBC. \textbf{Regra de ramifica\c{c}\~ao:} escolhe-se a vari\'avel inteira de
-\emph{menor \'indice} cujo valor na relaxa\c{c}\~ao seja fracion\'ario. Cada \emph{passo}
+\emph{menor \'indice} com valor fracion\'ario, gerando dois ramos:
+$x_j \le \lfloor x_j^* \rfloor$ (ramo do \emph{piso}, explorado primeiro) e
+$x_j \ge \lceil x_j^* \rceil$ (ramo do \emph{teto}). Cada \emph{passo}
 corresponde \`a resolu\c{c}\~ao da relaxa\c{c}\~ao de um n\'o.
 
 \medskip
@@ -164,20 +166,21 @@ $x_1$ \'e cont\'inua; ramifica-se sobre $x_2,x_3$. A \'arvore completa tem 9 n\'
 $(x_1,x_2,x_3)=(\tfrac53,\,0,\,4)$.
 
 % ---------- Exercicio 4 ----------
-% \subsection{Exerc\'icio 4}
-% \[
-% \min z = 2x_1+3x_2+5x_3 \quad\text{s.a.}\quad
-% \begin{cases}
-% x_1+2x_2+3x_3 \ge 7\\
-% 3x_1+2x_2+3x_3 \ge 11\\
-% x_1,x_3 \ge 0\ \text{inteiras};\ x_2 \ge 0.
-% \end{cases}
-% \]
-% \input{gen/p1_ex4_table.tex}
-% \noindent Neste caso a relaxa\c{c}\~ao na raiz j\'a fornece valores inteiros para
-% as vari\'aveis exigidas inteiras ($x_1=2$, $x_3=0$, com $x_2=2{,}5$ cont\'inua).
-% Logo a \'arvore se encerra na raiz, \emph{sem necessidade de ramifica\c{c}\~ao}.
-% \textbf{Solu\c{c}\~ao \'otima:} $z^{*}=11{,}5$ em $(x_1,x_2,x_3)=(2,\,2{,}5,\,0)$.
+\subsection{Exerc\'icio 4}
+\[
+\min z = 2x_1+3x_2+5x_3 \quad\text{s.a.}\quad
+\begin{cases}
+x_1+2x_2+3x_3 \ge 7\\
+3x_1+2x_2+3x_3 \ge 11\\
+x_1,x_3 \ge 0\ \text{inteiras};\ x_2 \ge 0.
+\end{cases}
+\]
+$x_2$ \'e cont\'inua; a ramifica\c{c}\~ao incide apenas sobre $x_1, x_3$.
+A relaxa\c{c}\~ao na raiz j\'a fornece valores inteiros para as vari\'aveis
+exigidas ($x_1=2$, $x_3=0$) com $x_2=2{,}5$ cont\'inua.
+A \'arvore se encerra na raiz, sem necessidade de ramifica\c{c}\~ao.
+\input{gen/p1_ex4_table.tex}
+\noindent\textbf{Solu\c{c}\~ao \'otima:} $z^{*}=11{,}5$ em $(x_1,x_2,x_3)=(2,\,2{,}5,\,0)$.
 
 \newpage
 % ============================================================================
@@ -372,10 +375,17 @@ $c_{ij}=0{,}50\cdot d_{ij}$ (\$/ton, onde $d_{ij}$ \'e a dist\^ancia em km da ta
 % ============================================================================
 \section{Parte 4: M\'inima Arboresc\^encia e Fluxo M\'aximo}
 % ============================================================================
-Para os problemas de grafos, foi utilizado a bibioteca \texttt{networkx} do Python para visualização do grafo.
-\textbf{Observa\c{c}\~ao.} Os pesos/capacidades foram transcritos das figuras do
-enunciado e reproduzidos nos grafos a seguir (para confer\^encia). Os algoritmos
-foram implementados em Python.
+Para os problemas de grafos, foi utilizada a biblioteca \texttt{networkx} do Python para
+constru\c{c}\~ao e visualiza\c{c}\~ao dos grafos. Os algoritmos foram implementados em Python.
+
+\textbf{M\'inima \'Arvore Geradora.} Dado um grafo n\~ao-dirigido $G=(V,E,w)$,
+deseja-se encontrar $T \subseteq E$ que conecta todos os v\'ertices com $\sum_{e \in T} w_e$ m\'inimo.
+
+\textbf{Fluxo M\'aximo (Edmonds-Karp).} Algoritmo de Ford-Fulkerson que utiliza busca em largura
+(BFS) no grafo residual para encontrar caminhos aumentantes a cada itera\c{c}\~ao.
+
+\textbf{Observa\c{c}\~ao.} Os pesos e capacidades foram transcritos das figuras do
+enunciado e reproduzidos nos grafos a seguir para confer\^encia.
 
 % ---------- Ex1 ----------
 \subsection{Exerc\'icio 1: M\'inima \'arvore geradora (Prim e Kruskal)}
@@ -451,6 +461,6 @@ capacidades dos arcos que saem da fonte ($13+46+40+92=191$): logo o
 ficam saturados.
 \begin{figure}[H]\centering
   \includegraphics[width=0.92\linewidth]{p4_ex5_fluxo.png}
-  \caption{Fluxo \'otimo (r\'otulos \emph{fluxo/capacidade}) --- Ex.\ 5.}\end{figure}
+  \caption{Fluxo \'otimo (r\'otulos \emph{fluxo/capacidade}), Exerc\'icio~5.}\end{figure}
 
 \end{document}

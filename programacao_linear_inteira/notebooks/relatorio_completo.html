@@ -7522,7 +7522,7 @@ a.anchor-link {
 <p><strong>Professor</strong>: Prof. Franklin Angelo Krukoski</p>
 <p><strong>Data</strong>: Julho de 2026</p>
 <hr/>
-<p>Este notebook integra o relatório da lista de exercícios com o código Python implementado, permitindo a execução interativa e a visualização de todos os resultados.</p>
+<p>Para resolução dos exercícios da lista foi implementado esse notebook em Python para resolver e visualizar os resultados obtidos.</p>
 <p><strong>Ferramentas e Bibliotecas Utilizadas:</strong></p>
 <ul>
 <li><strong>PuLP + CBC</strong>: resolução das relaxações lineares e modelos inteiros</li>
@@ -7548,7 +7548,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [79]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [103]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -7582,7 +7582,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="Parte-1:-Constru%C3%A7%C3%A3o-da-%C3%81rvore-Branch-and-Bound">Parte 1: Construção da Árvore Branch-and-Bound<a class="anchor-link" href="#Parte-1:-Constru%C3%A7%C3%A3o-da-%C3%81rvore-Branch-and-Bound">¶</a></h2><p><strong>Estratégia de busca:</strong> busca em profundidade (<em>depth-first search</em>, pilha LIFO).</p>
+<h2 id="Parte-1:-Constru%C3%A7%C3%A3o-da-%C3%81rvore-Branch-and-Bound">Parte 1: Construção da Árvore Branch-and-Bound<a class="anchor-link" href="#Parte-1:-Constru%C3%A7%C3%A3o-da-%C3%81rvore-Branch-and-Bound">¶</a></h2><p><strong>Estratégia de busca:</strong> busca em profundidade (<em>depth-first search</em>).</p>
 <p>A cada nó resolve-se a <strong>relaxação linear</strong> (variáveis contínuas) com o solver CBC.</p>
 <p><strong>Regra de ramificação:</strong> escolhe-se a variável inteira de <em>menor índice</em> com valor fracionário, gerando dois ramos:</p>
 <ul>
@@ -7610,12 +7610,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [80]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [104]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ============================================================</span>
-<span class="c1"># Motor Branch-and-Bound</span>
-<span class="c1"># ============================================================</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Branch-and-Bound</span>
+
 <span class="k">class</span><span class="w"> </span><span class="nc">Node</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Representa um nó da árvore Branch-and-Bound."""</span>
 
@@ -7833,12 +7832,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [81]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [105]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ============================================================</span>
-<span class="c1"># Utilitários de visualização da árvore B&amp;B</span>
-<span class="c1"># ============================================================</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Utilitários de visualização da árvore B&amp;B</span>
+
 <span class="n">STATUS_COLORS</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">'inteiro'</span><span class="p">:</span>     <span class="s1">'#2ca02c'</span><span class="p">,</span>
     <span class="s1">'fracionario'</span><span class="p">:</span> <span class="s1">'#1f77b4'</span><span class="p">,</span>
@@ -8047,7 +8045,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [82]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [106]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">prob_ex1</span> <span class="o">=</span> <span class="p">{</span>
@@ -8085,7 +8083,7 @@ Nós explorados: 13
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[82]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[106]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8257,7 +8255,7 @@ Nós explorados: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [83]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [107]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">draw_tree</span><span class="p">(</span><span class="n">res1</span><span class="p">,</span> <span class="s1">'Árvore B&amp;B — Exercício 1  (z* = 20,  ótimo: x₁=1, x₂=2, x₃=1, x₄=0)'</span><span class="p">)</span>
@@ -8302,7 +8300,7 @@ Nós explorados: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [84]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [108]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">prob_ex2</span> <span class="o">=</span> <span class="p">{</span>
@@ -8338,7 +8336,7 @@ Nós explorados: 13
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[84]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[108]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8450,7 +8448,7 @@ Nós explorados: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [85]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [109]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">draw_tree</span><span class="p">(</span><span class="n">res2</span><span class="p">,</span> <span class="s1">'Árvore B&amp;B — Exercício 2  (z* = 289/6 ≈ 48,17)'</span><span class="p">)</span>
@@ -8495,7 +8493,7 @@ Nós explorados: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [86]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [110]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">prob_ex3</span> <span class="o">=</span> <span class="p">{</span>
@@ -8531,7 +8529,7 @@ Nós explorados: 13
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[86]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[110]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8663,7 +8661,7 @@ Nós explorados: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [87]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [111]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">draw_tree</span><span class="p">(</span><span class="n">res3</span><span class="p">,</span> <span class="s1">'Árvore B&amp;B — Exercício 3  (z* = 17,  ótimo: x₁=5/3, x₂=0, x₃=4)'</span><span class="p">)</span>
@@ -8707,7 +8705,7 @@ Nós explorados: 13
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [88]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [112]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">prob_ex4</span> <span class="o">=</span> <span class="p">{</span>
@@ -8744,7 +8742,7 @@ A árvore se encerra na raiz (sem ramificação): relaxação LP já é inteira 
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[88]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[112]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8799,7 +8797,7 @@ A árvore se encerra na raiz (sem ramificação): relaxação LP já é inteira 
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="Parte-2:-Formula%C3%A7%C3%A3o-de-Problemas-de-PLI">Parte 2: Formulação de Problemas de PLI<a class="anchor-link" href="#Parte-2:-Formula%C3%A7%C3%A3o-de-Problemas-de-PLI">¶</a></h2><p>Apresentam-se apenas os modelos matemáticos (variáveis de decisão, função objetivo e restrições), conforme solicitado. Não há código de execução nesta parte.</p>
+<h2 id="Parte-2:-Formula%C3%A7%C3%A3o-de-Problemas-de-PLI">Parte 2: Formulação de Problemas de PLI<a class="anchor-link" href="#Parte-2:-Formula%C3%A7%C3%A3o-de-Problemas-de-PLI">¶</a></h2><p>Apresentam-se apenas os modelos matemáticos (variáveis de decisão, função objetivo e restrições)</p>
 </div>
 </div>
 </div>
@@ -8810,7 +8808,7 @@ A árvore se encerra na raiz (sem ramificação): relaxação LP já é inteira 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Exerc%C3%ADcio-1:-Carregamento-do-avi%C3%A3o-cargueiro">Exercício 1: Carregamento do avião cargueiro<a class="anchor-link" href="#Exerc%C3%ADcio-1:-Carregamento-do-avi%C3%A3o-cargueiro">¶</a></h3><p><strong>Variáveis:</strong> $n_{ik} \in \mathbb{Z}_{\geq 0}$ = contêineres do tipo $i \in \{1,2,3\}$ no compartimento $k \in \{F,C,T\}$;  $g_j \geq 0$ = carga a granel $j \in \{4,5\}$ (ton) no porão $G$.</p>
+<h3 id="Exerc%C3%ADcio-1:-Carregamento-do-avi%C3%A3o-cargueiro">Exercício 1: Carregamento do avião cargueiro<a class="anchor-link" href="#Exerc%C3%ADcio-1:-Carregamento-do-avi%C3%A3o-cargueiro">¶</a></h3><p><strong>Variáveis:</strong> $n_{ik} \in \mathbb{Z } {\geq 0}$ = contêineres do tipo $i \in \{1,2,3\}$ no compartimento $k \in \{F,C,T\}$;  $g_j \geq 0$ = carga a granel $j \in \{4,5\}$ (ton) no porão $G$.</p>
 <p><strong>Objetivo</strong> (maximizar lucro):
 $$\max\; z = \sum_{k}\bigl(200\,w_1 n_{1k} + 220\,w_2 n_{2k} + 175\,w_3 n_{3k}\bigr) + 235\,g_4 + 180\,g_5$$</p>
 <p><strong>Restrições de peso</strong> (ton: $F=5, C=7, T=6, G=7$):
@@ -8827,7 +8825,7 @@ $$\frac{\sum_i w_i n_{iF}}{5} = \frac{\sum_i w_i n_{iC}}{7} = \frac{\sum_i w_i n
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Exerc%C3%ADcio-2:-Combate-ao-inc%C3%AAndio-florestal">Exercício 2: Combate ao incêndio florestal<a class="anchor-link" href="#Exerc%C3%ADcio-2:-Combate-ao-inc%C3%AAndio-florestal">¶</a></h3><p><strong>Variáveis:</strong> $x_1, x_2, x_3 \in \mathbb{Z}_{\geq 0}$ = helicópteros AH-1, aviões-tanque e aviões B67.</p>
+<h3 id="Exerc%C3%ADcio-2:-Combate-ao-inc%C3%AAndio-florestal">Exercício 2: Combate ao incêndio florestal<a class="anchor-link" href="#Exerc%C3%ADcio-2:-Combate-ao-inc%C3%AAndio-florestal">¶</a></h3><p><strong>Variáveis:</strong> $x_1, x_2, x_3 \in \mathbb{Z} {\geq 0}$ = helicópteros AH-1, aviões-tanque e aviões B67.</p>
 <p>$$\min\; z = 6000x_1 + 12000x_2 + 30000x_3$$</p>
 <ul>
 <li>$3(15000x_1 + 40000x_2 + 85000x_3) \geq 3\,000\,000$ -&gt; área coberta</li>
@@ -8879,7 +8877,6 @@ Custos $c = (130,110,120,150,80,80,360,400,160,120,200,160)$ (mil $)</p>
 <h2 id="Parte-3:-Transporte,-Transbordo-e-Designa%C3%A7%C3%A3o">Parte 3: Transporte, Transbordo e Designação<a class="anchor-link" href="#Parte-3:-Transporte,-Transbordo-e-Designa%C3%A7%C3%A3o">¶</a></h2><p>Os problemas de transporte são modelados como:
 $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;(\text{oferta}), \quad \sum_i x_{ij} = d_j \;(\text{demanda}), \quad x_{ij} \geq 0$$</p>
 <p>Em todos os casos a oferta total é maior ou igual à demanda total. O excesso é absorvido pela folga da oferta.</p>
-<p>O problema de designação (Ex. 5) usa $x_{ij} \in \{0,1\}$ com $\sum_j x_{ij} = 1$ e $\sum_i x_{ij} = 1$.</p>
 </div>
 </div>
 </div>
@@ -8888,12 +8885,11 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [89]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [113]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ============================================================</span>
-<span class="c1"># Funções de resolução: transporte e designação</span>
-<span class="c1"># ============================================================</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Funções de resolução: transporte e designação</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">solve_transport</span><span class="p">(</span>
     <span class="n">cost_matrix</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
     <span class="n">supply</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
@@ -9096,7 +9092,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [90]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [114]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">cost1</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
@@ -9151,7 +9147,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [91]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [115]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Custo[revendedor][terminal]</span>
@@ -9207,7 +9203,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [92]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [116]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">cost3</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">92</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span>
@@ -9262,7 +9258,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [93]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [117]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">dist4</span> <span class="o">=</span> <span class="p">[</span>
@@ -9314,7 +9310,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <hr/>
 <h2 id="Parte-4:-M%C3%ADnima-Arboresc%C3%AAncia-e-Fluxo-M%C3%A1ximo">Parte 4: Mínima Arborescência e Fluxo Máximo<a class="anchor-link" href="#Parte-4:-M%C3%ADnima-Arboresc%C3%AAncia-e-Fluxo-M%C3%A1ximo">¶</a></h2><p>Os pesos/capacidades foram transcritos das figuras do enunciado. Os algoritmos foram implementados em Python.</p>
 <p><strong>Mínima Árvore Geradora:</strong> dado um grafo não-dirigido $G=(V,E,w)$, encontrar $T \subseteq E$ que conecta todos os vértices com $\sum_{e \in T} w_e$ mínimo.</p>
-<p><strong>Fluxo Máximo (Edmonds-Karp):</strong> algoritmo de Ford-Fulkerson usando BFS no grafo residual para encontrar caminhos aumentantes (complexidade $O(VE^2)$).</p>
+<p><strong>Fluxo Máximo (Edmonds-Karp):</strong> algoritmo de Ford-Fulkerson usando BFS no grafo residual para encontrar caminhos aumentantes.</p>
 </div>
 </div>
 </div>
@@ -9323,12 +9319,11 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [94]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [118]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ============================================================</span>
-<span class="c1"># Algoritmos: Kruskal e Prim (Árvore Geradora Mínima)</span>
-<span class="c1"># ============================================================</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Algoritmos: Kruskal e Prim (Árvore Geradora Mínima)</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">kruskal</span><span class="p">(</span><span class="n">nodes</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">edges</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Kruskal com Union-Find. Retorna (arvore, custo, log)."""</span>
     <span class="n">parent</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">}</span>
@@ -9440,12 +9435,11 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [95]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ============================================================</span>
-<span class="c1"># Algoritmo Edmonds-Karp (BFS no grafo residual)</span>
-<span class="c1"># ============================================================</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Algoritmo Edmonds-Karp (BFS no grafo residual)</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">edmonds_karp</span><span class="p">(</span>
     <span class="n">nodes</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
     <span class="n">arcs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
@@ -9540,12 +9534,11 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [96]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [120]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ============================================================</span>
-<span class="c1"># Visualização de grafos (AGM e fluxo máximo)</span>
-<span class="c1"># ============================================================</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualização de grafos (AGM e fluxo máximo)</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">draw_graph</span><span class="p">(</span>
     <span class="n">nodes</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
     <span class="n">edges</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
@@ -9657,7 +9650,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [97]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [121]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">EX1_EDGES</span> <span class="o">=</span> <span class="p">[</span>
@@ -10017,7 +10010,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [98]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [122]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">draw_graph</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">EX1_EDGES</span><span class="p">,</span> <span class="n">EX1_POS</span><span class="p">,</span> <span class="s1">'Ex. 1 — Grafo de entrada'</span><span class="p">)</span>
@@ -10063,7 +10056,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [99]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [123]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">EX2_EDGES</span> <span class="o">=</span> <span class="p">[</span>
@@ -10513,7 +10506,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [100]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [124]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">draw_graph</span><span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">EX2_EDGES</span><span class="p">,</span> <span class="n">EX2_POS</span><span class="p">,</span> <span class="s1">'Ex. 2 — Grafo de entrada'</span><span class="p">)</span>
@@ -10554,7 +10547,7 @@ $$\min \sum_{ij} c_{ij} x_{ij} \quad \text{s.a.} \quad \sum_j x_{ij} \leq s_i \;
 <p><strong>Modelo matemático:</strong>
 $$\max\; F = \sum_{j:(1,j)\in A} f_{1j}$$</p>
 <ul>
-<li>Conservação: $\displaystyle\sum_{j:(i,j)\in A} f_{ij} - \sum_{j:(j,i)\in A} f_{ji} = 0 \quad \forall\, i \neq 1, 15$</li>
+<li>Conservação: $\displaystyle\sum_{j:(i,j)\in A} f_{ij} - \sum_{j:(j,i)\in A} f_{ji} = 0 \quad $</li>
 <li>Capacidade: $0 \leq f_{ij} \leq u_{ij} \quad \forall\,(i,j) \in A$</li>
 </ul>
 <p>O algoritmo de <strong>Edmonds-Karp</strong> utiliza BFS para encontrar o caminho aumentante de menor número de arestas a cada iteração.</p>
@@ -10566,7 +10559,7 @@ $$\max\; F = \sum_{j:(1,j)\in A} f_{1j}$$</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [101]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [125]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">EX5_ARCS</span> <span class="o">=</span> <span class="p">[</span>
@@ -10709,7 +10702,7 @@ Soma das capacidades da fonte: 13+46+40+92 = 191 (todos os arcos saturados)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [102]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [126]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">draw_graph</span><span class="p">(</span><span class="n">n5</span><span class="p">,</span> <span class="n">EX5_ARCS</span><span class="p">,</span> <span class="n">EX5_POS</span><span class="p">,</span>
