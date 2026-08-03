@@ -1,0 +1,56 @@
+
+--- linear_nao_ideal - BASE (a=0.8) ---
+Autovalores:
+  -0.0112 + 0.7244i
+  -0.0112 - 0.7244i
+  -0.0476 + 0.0000i
+  -1.3923 + 0.0000i
+  -0.1077 + 0.0000i
+
+Classificacao: Sistema ESTAVEL
+
+--- linear_nao_ideal - MOD (a=3.0) ---
+Autovalores:
+  -0.0112 + 0.7244i
+  -0.0112 - 0.7244i
+  -0.0476 + 0.0000i
+  -1.3923 + 0.0000i
+  -0.1077 + 0.0000i
+
+Classificacao: Sistema ESTAVEL
+
+--- nao_linear_nao_ideal - BASE (a=4.0) ---
+Autovalores:
+  -0.0106 + 1.0123i
+  -0.0106 - 1.0123i
+  -0.0488 + 0.0000i
+   0.0000 + 0.0000i
+  -1.5000 + 0.0000i
+
+Classificacao: Sistema MARGINALMENTE ESTAVEL
+
+--- nao_linear_nao_ideal - MOD (a=1.0) ---
+Autovalores:
+  -0.0106 + 1.0123i
+  -0.0106 - 1.0123i
+  -0.0488 + 0.0000i
+   0.0000 + 0.0000i
+  -1.5000 + 0.0000i
+
+Classificacao: Sistema MARGINALMENTE ESTAVEL
+
+--- nao_linear_periodico - BASE (w=0.8) ---
+Autovalores:
+  -0.0106 + 1.0123i
+  -0.0106 - 1.0123i
+  -0.0488 + 0.0000i
+
+Classificacao: Sistema ESTAVEL
+
+--- nao_linear_periodico - MOD (w=0.45) ---
+Autovalores:
+  -0.0106 + 1.0123i
+  -0.0106 - 1.0123i
+  -0.0488 + 0.0000i
+
+Classificacao: Sistema ESTAVEL

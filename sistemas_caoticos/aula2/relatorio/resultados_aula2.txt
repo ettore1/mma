@@ -1,0 +1,42 @@
+=== Sistema 1: Linear com Excitacao Nao-Ideal ===
+Modificacao: Parametro de controle do motor CC: a = 0.8 -> 3.0
+
+  Caso BASE:
+    Potencia media = 6.862430e-02 (u.a.)
+    Amplitude max |deslocamento| (regime) = 0.2041
+    Amplitude max |tensao| (regime) = 0.1014
+
+  Caso MOD:
+    Potencia media = 1.104252e-01 (u.a.)
+    Amplitude max |deslocamento| (regime) = 0.2330
+    Amplitude max |tensao| (regime) = 0.1164
+
+
+=== Sistema 2: Nao-Linear com Excitacao Nao-Ideal ===
+Modificacao: Parametro de controle do motor CC: a = 4.0 -> 1.0
+
+  Caso BASE:
+    Potencia media = 8.927661e-02 (u.a.)
+    Amplitude max |deslocamento| (regime) = 1.1945
+    Amplitude max |tensao| (regime) = 0.1167
+
+  Caso MOD:
+    Potencia media = 2.434486e-02 (u.a.)
+    Amplitude max |deslocamento| (regime) = 1.1448
+    Amplitude max |tensao| (regime) = 0.0795
+
+
+=== Sistema 3: Nao-Linear com Excitacao Periodica ===
+Modificacao: Frequencia de excitacao: w = 0.8 -> 0.45
+
+  Caso BASE:
+    Potencia media = 1.450959e+00 (u.a.)
+    Amplitude max |deslocamento| (regime) = 1.5347
+    Amplitude max |tensao| (regime) = 0.8977
+
+  Caso MOD:
+    Potencia media = 1.782203e-02 (u.a.)
+    Amplitude max |deslocamento| (regime) = 1.0797
+    Amplitude max |tensao| (regime) = 0.0722
+
+
